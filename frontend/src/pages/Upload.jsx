@@ -87,18 +87,18 @@ export const Upload = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-fadeIn">
       {/* Header Info */}
-      <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-1 glass-panel">
-        <h2 className="text-xl font-bold text-white flex items-center gap-2">
-          <UploadCloud className="w-5 h-5 text-emerald-400" />
+      <div className="glass-card p-6 rounded-2xl space-y-1">
+        <h2 className="font-display text-xl font-bold text-foreground flex items-center gap-2">
+          <UploadCloud className="w-5 h-5 text-primary" />
           Upload Document
         </h2>
-        <p className="text-xs text-slate-400 leading-relaxed">
-          Upload documents to your secure workspace. Supported formats: PDF, DOCX, and TXT.
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          Upload documents to your secure workspace. Supported formats: PDF, DOCX, and TXT (up to 15MB).
         </p>
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-rose-950/60 border border-rose-800/60 flex items-center gap-3 text-rose-300 text-xs font-medium">
+        <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/30 flex items-center gap-3 text-destructive text-xs font-semibold">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
@@ -110,10 +110,10 @@ export const Upload = () => {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`p-12 rounded-3xl border-2 border-dashed transition-all duration-300 cursor-pointer text-center relative overflow-hidden ${
+        className={`glow-card gradient-border p-12 rounded-3xl border border-dashed transition-all duration-300 cursor-pointer text-center relative overflow-hidden ${
           isDragging
-            ? 'border-emerald-400 bg-emerald-950/30 scale-[1.01]'
-            : 'border-slate-800 bg-slate-900/40 hover:border-emerald-500/50 hover:bg-slate-900/80'
+            ? 'border-primary bg-primary/10 scale-[1.01]'
+            : 'border-border bg-card hover:border-primary/50'
         }`}
       >
         <input
@@ -124,36 +124,36 @@ export const Upload = () => {
           className="hidden"
         />
 
-        <div className="w-16 h-16 rounded-2xl bg-slate-950 border border-slate-800 mx-auto flex items-center justify-center text-emerald-400 shadow-xl mb-4 group-hover:scale-110 transition-transform">
+        <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 mx-auto flex items-center justify-center text-primary shadow-elegant mb-4 group-hover:scale-110 transition-transform">
           <UploadCloud className="w-8 h-8" />
         </div>
 
-        <h3 className="text-lg font-bold text-white mb-1">
+        <h3 className="font-display text-lg font-bold text-foreground mb-1">
           {isDragging ? 'Drop your document here' : 'Click to browse or drag & drop'}
         </h3>
-        <p className="text-xs text-slate-400 max-w-sm mx-auto mb-4">
-          Supports PDF, DOCX, TXT files up to 15MB.
+        <p className="text-xs text-muted-foreground max-w-sm mx-auto mb-4">
+          Files are automatically scanned and masked for sensitive PII data before indexing.
         </p>
 
-        <div className="flex items-center justify-center gap-3 text-[11px] font-semibold text-slate-500">
-          <span className="px-2.5 py-1 rounded bg-slate-950 border border-slate-800">.PDF</span>
-          <span className="px-2.5 py-1 rounded bg-slate-950 border border-slate-800">.DOCX</span>
-          <span className="px-2.5 py-1 rounded bg-slate-950 border border-slate-800">.TXT</span>
+        <div className="flex items-center justify-center gap-2.5 text-[11px] font-semibold font-mono">
+          <span className="badge badge-info">.PDF</span>
+          <span className="badge badge-info">.DOCX</span>
+          <span className="badge badge-info">.TXT</span>
         </div>
       </div>
 
       {/* Selected File Card & Upload Controls */}
       {file && (
-        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4 glass-card">
+        <div className="glass-card p-6 rounded-2xl space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-950 border border-emerald-800/60 flex items-center justify-center text-emerald-400">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
                 <FileText className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-white">{file.name}</h4>
-                <p className="text-xs text-slate-400">
-                  {(file.size / (1024 * 1024)).toFixed(2)} MB • Ready to upload
+                <h4 className="font-display text-sm font-bold text-foreground">{file.name}</h4>
+                <p className="text-xs text-muted-foreground">
+                  {(file.size / (1024 * 1024)).toFixed(2)} MB • Ready to process
                 </p>
               </div>
             </div>
@@ -163,7 +163,7 @@ export const Upload = () => {
                   e.stopPropagation();
                   setFile(null);
                 }}
-                className="p-2 text-slate-500 hover:text-rose-400 transition-colors"
+                className="btn-ghost p-2 text-muted-foreground hover:text-destructive rounded-lg transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -173,13 +173,13 @@ export const Upload = () => {
           {/* Upload Progress Bar */}
           {isUploading && (
             <div className="space-y-2">
-              <div className="flex justify-between text-xs text-slate-400 font-medium">
-                <span>Processing document...</span>
+              <div className="flex justify-between text-xs text-muted-foreground font-medium font-mono">
+                <span>Chunking & masking document...</span>
                 <span>{progress}%</span>
               </div>
-              <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+              <div className="w-full h-2 bg-secondary rounded-full overflow-hidden border border-border">
                 <div
-                  className="h-full bg-emerald-500 transition-all duration-300"
+                  className="h-full bg-gradient-primary transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -189,10 +189,10 @@ export const Upload = () => {
           {!isUploading && (
             <button
               onClick={handleUpload}
-              className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-950/50 flex items-center justify-center gap-2 transition-all"
+              className="btn-primary w-full py-3 flex items-center justify-center gap-2 cursor-pointer"
             >
               <UploadCloud className="w-4 h-4" />
-              <span>Upload Document</span>
+              <span>Start Secure Upload & Indexing</span>
             </button>
           )}
         </div>
@@ -200,56 +200,56 @@ export const Upload = () => {
 
       {/* Success Banner */}
       {uploadedDoc && (
-        <div className="p-6 rounded-2xl bg-emerald-950/40 border border-emerald-800/60 space-y-4 animate-fadeIn">
+        <div className="card-premium p-6 border border-primary/30 space-y-4 animate-fadeIn">
           <div className="flex items-center gap-3">
-            <CheckCircle2 className="w-6 h-6 text-emerald-400 shrink-0" />
+            <CheckCircle2 className="w-6 h-6 text-success shrink-0" />
             <div>
-              <h4 className="text-base font-bold text-white">Document Uploaded Successfully</h4>
-              <p className="text-xs text-slate-300">
-                Your document is ready to be queried with the AI Assistant.
+              <h4 className="font-display text-base font-bold text-foreground">Document Uploaded & Indexed Successfully</h4>
+              <p className="text-xs text-muted-foreground">
+                Your document is now ready to be queried with context-aware RAG.
               </p>
             </div>
           </div>
 
-          <div className="pt-2 flex items-center gap-4">
+          <div className="pt-2 flex flex-wrap items-center gap-3">
             <button
               onClick={() => navigate('/chat')}
-              className="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow"
+              className="btn-primary text-xs py-2.5 px-4 flex items-center gap-1.5 cursor-pointer"
             >
-              Open AI Assistant <ArrowRight className="w-3.5 h-3.5" />
+              <span>Open AI Assistant</span> <ArrowRight className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => navigate('/documents')}
-              className="px-4 py-2 rounded-xl bg-slate-800 text-slate-200 font-semibold text-xs border border-slate-700"
+              className="btn-ghost text-xs py-2.5 px-4 cursor-pointer"
             >
-              View My Documents
+              View Document Repository
             </button>
           </div>
         </div>
       )}
 
       {/* Processing Steps */}
-      <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800 space-y-3">
-        <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          Processing Steps
+      <div className="card-premium p-6 space-y-3">
+        <h4 className="font-display text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+          <ShieldCheck className="w-4 h-4 text-primary" />
+          Automated Processing Steps
         </h4>
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs text-slate-400">
-          <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-            <span className="text-emerald-400 font-bold block">1. Reading Document</span>
-            <p className="text-[11px] mt-0.5 text-slate-400">File structure analysis</p>
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+          <div className="p-3.5 rounded-xl bg-secondary/50 border border-border">
+            <span className="text-primary font-display font-bold block">1. File Parsing</span>
+            <p className="text-[11px] mt-0.5 text-muted-foreground">Extract text layout & structure</p>
           </div>
-          <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-            <span className="text-teal-400 font-bold block">2. Protecting Sensitive Data</span>
-            <p className="text-[11px] mt-0.5 text-slate-400">Automatic privacy filters</p>
+          <div className="p-3.5 rounded-xl bg-secondary/50 border border-border">
+            <span className="text-accent font-display font-bold block">2. PII Sanitization</span>
+            <p className="text-[11px] mt-0.5 text-muted-foreground">Redact sensitive entities</p>
           </div>
-          <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-            <span className="text-cyan-400 font-bold block">3. Preparing Document</span>
-            <p className="text-[11px] mt-0.5 text-slate-400">Content indexing</p>
+          <div className="p-3.5 rounded-xl bg-secondary/50 border border-border">
+            <span className="text-primary font-display font-bold block">3. Vector Chunking</span>
+            <p className="text-[11px] mt-0.5 text-muted-foreground">Generate dense embeddings</p>
           </div>
-          <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-            <span className="text-emerald-300 font-bold block">4. Ready</span>
-            <p className="text-[11px] mt-0.5 text-slate-400">Available for queries</p>
+          <div className="p-3.5 rounded-xl bg-secondary/50 border border-border">
+            <span className="text-success font-display font-bold block">4. Index Active</span>
+            <p className="text-[11px] mt-0.5 text-muted-foreground font-semibold">Ready for RAG chat</p>
           </div>
         </div>
       </div>

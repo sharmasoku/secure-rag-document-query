@@ -87,19 +87,19 @@ export const Chat = () => {
 
   return (
     <div className="h-[calc(100vh-8rem)] flex flex-col max-w-4xl mx-auto space-y-4 animate-fadeIn">
-      {/* Control Bar */}
-      <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-900/60 border border-slate-800 glass-panel">
+      {/* Control Header */}
+      <div className="glass-card flex items-center justify-between p-4 rounded-2xl">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-slate-950 font-bold shadow">
-            <Bot className="w-5 h-5 text-slate-950" />
+          <div className="w-9 h-9 rounded-xl bg-gradient-primary flex items-center justify-center text-white font-bold shadow-sm shrink-0">
+            <Bot className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              AI Assistant
+            <h3 className="font-display text-sm font-bold text-foreground flex items-center gap-2">
+              AI Knowledge Assistant
             </h3>
-            <p className="text-[11px] text-slate-400 flex items-center gap-1">
-              <ShieldCheck className="w-3 h-3 text-emerald-400" />
-              Ready to answer questions about your documents
+            <p className="text-[11px] text-muted-foreground flex items-center gap-1.5 font-medium">
+              <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+              Grounded in your encrypted document repository
             </p>
           </div>
         </div>
@@ -107,20 +107,20 @@ export const Chat = () => {
         {messages.length > 0 && (
           <button
             onClick={handleClearHistory}
-            className="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-rose-950/40 text-slate-400 hover:text-rose-300 border border-slate-700 text-xs font-medium flex items-center gap-1.5 transition-colors"
+            className="btn-ghost text-xs text-muted-foreground hover:text-destructive hover:bg-destructive/10 flex items-center gap-1.5 cursor-pointer"
           >
             <Trash2 className="w-3.5 h-3.5" />
-            <span>Clear Chat</span>
+            <span>Clear History</span>
           </button>
         )}
       </div>
 
       {/* Messages Scroll Area */}
-      <div className="flex-1 overflow-y-auto p-6 rounded-2xl bg-slate-900/40 border border-slate-800 space-y-6 glass-card">
+      <div className="flex-1 overflow-y-auto p-6 rounded-2xl glass-card space-y-6">
         {isLoading ? (
-          <div className="py-20 flex flex-col items-center justify-center text-slate-400">
-            <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin mb-4" />
-            <p className="text-sm font-medium">Loading conversation...</p>
+          <div className="py-20 flex flex-col items-center justify-center text-muted-foreground">
+            <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4" />
+            <p className="text-sm font-medium">Loading conversation history...</p>
           </div>
         ) : messages.length > 0 ? (
           messages.map((msg, idx) => {
@@ -130,10 +130,10 @@ export const Chat = () => {
               <div key={msg.id || idx} className="space-y-4">
                 {/* User Question Bubble */}
                 <div className="flex items-start justify-end gap-3">
-                  <div className="max-w-xl p-4 rounded-2xl bg-emerald-600/20 border border-emerald-500/30 text-white text-sm leading-relaxed shadow-sm">
+                  <div className="max-w-xl p-4 rounded-2xl bg-primary/15 border border-primary/25 text-foreground text-sm leading-relaxed shadow-sm font-medium">
                     {msg.question}
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-emerald-950 border border-emerald-700 flex items-center justify-center text-emerald-300 font-bold text-xs shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-primary font-bold text-xs shrink-0">
                     <User className="w-4 h-4" />
                   </div>
                 </div>
@@ -141,11 +141,11 @@ export const Chat = () => {
                 {/* AI Assistant Answer Bubble */}
                 {msg.answer ? (
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center text-emerald-400 font-bold text-xs shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center text-primary font-bold text-xs shrink-0">
                       <Bot className="w-4 h-4" />
                     </div>
                     <div className="max-w-2xl space-y-3">
-                      <div className="p-5 rounded-2xl bg-slate-950/90 border border-slate-800 text-slate-200 text-sm leading-relaxed whitespace-pre-wrap shadow-md">
+                      <div className="p-5 rounded-2xl bg-card border border-border text-foreground text-sm leading-relaxed whitespace-pre-wrap shadow-card">
                         {msg.answer}
                       </div>
 
@@ -154,17 +154,17 @@ export const Chat = () => {
                         <div className="flex flex-wrap items-center gap-2">
                           {/* Answer Confidence */}
                           {msg.confidence_score > 0 && (
-                            <span className="px-2.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-800/60 text-emerald-300 font-semibold flex items-center gap-1">
-                              <Sparkles className="w-3 h-3 text-emerald-400" />
-                              {(msg.confidence_score * 100).toFixed(0)}% Answer Confidence
+                            <span className="badge badge-success text-[11px]">
+                              <Sparkles className="w-3 h-3" />
+                              {(msg.confidence_score * 100).toFixed(0)}% Confidence Score
                             </span>
                           )}
 
                           {/* Source Documents List */}
                           {sources.length > 0 && (
-                            <span className="px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-slate-300 font-medium flex items-center gap-1.5">
-                              <FileText className="w-3 h-3 text-emerald-400" />
-                              <span>Source: {sources.join(', ')}</span>
+                            <span className="badge badge-info text-[11px]">
+                              <FileText className="w-3 h-3" />
+                              <span>Sources: {sources.join(', ')}</span>
                             </span>
                           )}
                         </div>
@@ -172,16 +172,16 @@ export const Chat = () => {
                         {/* Copy Answer Button */}
                         <button
                           onClick={() => handleCopyAnswer(msg.answer, msg.id || idx)}
-                          className="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium flex items-center gap-1.5 border border-slate-700 transition-colors"
+                          className="btn-ghost text-xs py-1 px-2.5 font-medium flex items-center gap-1.5 cursor-pointer"
                         >
                           {copiedId === (msg.id || idx) ? (
                             <>
-                              <Check className="w-3.5 h-3.5 text-emerald-400" />
-                              <span className="text-emerald-300">Copied</span>
+                              <Check className="w-3.5 h-3.5 text-success" />
+                              <span className="text-success font-semibold">Copied</span>
                             </>
                           ) : (
                             <>
-                              <Copy className="w-3.5 h-3.5 text-slate-400" />
+                              <Copy className="w-3.5 h-3.5 text-muted-foreground" />
                               <span>Copy Answer</span>
                             </>
                           )}
@@ -192,12 +192,12 @@ export const Chat = () => {
                 ) : (
                   /* Loading State */
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center text-emerald-400 font-bold text-xs shrink-0 animate-pulse">
+                    <div className="w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center text-primary font-bold text-xs shrink-0 animate-pulse">
                       <Bot className="w-4 h-4" />
                     </div>
-                    <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-slate-400 text-xs flex items-center gap-2">
-                      <div className="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-                      <span>Thinking...</span>
+                    <div className="p-4 rounded-2xl bg-card border border-border text-muted-foreground text-xs flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                      <span>Searching document vectors & generating answer...</span>
                     </div>
                   </div>
                 )}
@@ -207,19 +207,19 @@ export const Chat = () => {
         ) : (
           /* Empty Chat State */
           <div className="py-12 text-center space-y-6">
-            <div className="w-16 h-16 rounded-3xl bg-slate-950 border border-slate-800 mx-auto flex items-center justify-center text-emerald-400 shadow-xl">
+            <div className="w-16 h-16 rounded-3xl bg-primary/10 border border-primary/20 mx-auto flex items-center justify-center text-primary shadow-elegant">
               <MessageSquare className="w-8 h-8" />
             </div>
             <div className="max-w-md mx-auto space-y-2">
-              <h3 className="text-lg font-bold text-white">Ask a question about one of your uploaded documents.</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Type your question below to receive factual answers grounded in your files.
+              <h3 className="font-display text-lg font-bold text-foreground">Ask anything about your documents</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Type your query below to retrieve accurate facts with source citations.
               </p>
             </div>
 
             {/* Sample Prompts */}
             <div className="max-w-xl mx-auto space-y-2 pt-2">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block text-center">
+              <span className="font-display text-[10px] font-bold text-muted-foreground uppercase tracking-wider block text-center">
                 Suggested Questions
               </span>
               <div className="grid grid-cols-1 gap-2 text-left">
@@ -227,10 +227,10 @@ export const Chat = () => {
                   <button
                     key={i}
                     onClick={() => setQuestion(promptText)}
-                    className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-emerald-500/50 text-xs text-slate-300 hover:text-white transition-all text-left flex items-center justify-between group"
+                    className="p-3.5 rounded-xl bg-card border border-border hover:border-primary/50 text-xs text-foreground/80 hover:text-foreground transition-all text-left flex items-center justify-between group cursor-pointer"
                   >
                     <span>"{promptText}"</span>
-                    <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-emerald-400 transition-colors" />
+                    <ChevronRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
                   </button>
                 ))}
               </div>
@@ -241,20 +241,21 @@ export const Chat = () => {
       </div>
 
       {/* Question Input Form */}
-      <form onSubmit={handleSubmit} className="relative">
+      <form onSubmit={handleSubmit} className="relative flex items-center gap-2">
         <input
           type="text"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           placeholder="Ask a question about your uploaded documents..."
-          className="w-full pl-5 pr-14 py-4 rounded-2xl bg-slate-900 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm text-white placeholder-slate-500 outline-none shadow-xl transition-all"
+          className="input-premium py-3.5 pl-5 pr-14 text-sm"
         />
         <button
           type="submit"
           disabled={!question.trim() || askMutation.isPending}
-          className="absolute right-2.5 top-1/2 -translate-y-1/2 p-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold shadow-md transition-all disabled:opacity-40"
+          className="btn-primary shrink-0 py-3.5 px-5 flex items-center gap-2 cursor-pointer"
         >
           <Send className="w-4 h-4" />
+          <span className="hidden sm:inline">Send</span>
         </button>
       </form>
     </div>
